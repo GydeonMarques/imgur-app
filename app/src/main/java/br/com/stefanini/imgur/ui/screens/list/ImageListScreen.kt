@@ -1,7 +1,6 @@
 package br.com.stefanini.imgur.ui.screens.list
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -11,10 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.stefanini.imgur.R
 import br.com.stefanini.imgur.ui.components.CardImageItem
 import br.com.stefanini.imgur.ui.components.ViewState
@@ -25,16 +24,18 @@ internal fun ImageListScreen(
     viewModel: ImageListViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val viewState by viewModel.data.observeAsState(ImageListViewState.Loading)
+    val viewState by viewModel.data.collectAsStateWithLifecycle()
 
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = modifier
     ) {
         when (viewState) {
-            ImageListViewState.Failure -> RenderLayoutFailure()
             ImageListViewState.Loading -> RenderLayoutLoading()
-            is ImageListViewState.Success -> RenderLayoutSuccess(viewState)
+            ImageListViewState.Failure -> RenderLayoutFailure()
+            is ImageListViewState.Success -> RenderLayoutSuccess(
+                viewState as ImageListViewState.Success
+            )
         }
     }
 }
@@ -57,16 +58,13 @@ private fun RenderLayoutFailure() {
 
 
 @Composable
-private fun RenderLayoutSuccess(viewState: ImageListViewState) {
-    val galleries = (viewState as ImageListViewState.Success).galleries
-
+private fun RenderLayoutSuccess(viewState: ImageListViewState.Success) {
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
+        columns = StaggeredGridCells.Adaptive(200.dp),
         verticalItemSpacing = 6.dp,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.fillMaxSize(),
     ) {
-        items(galleries) { gallery ->
+        items(viewState.galleries) { gallery ->
             CardImageItem(
                 imageUrl = gallery.images.takeIf { it.isNotEmpty() }?.get(0)?.imageUrl.orEmpty(),
                 modifier = Modifier
