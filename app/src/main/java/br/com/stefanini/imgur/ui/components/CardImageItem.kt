@@ -7,24 +7,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.stefanini.imgur.R
-import br.com.stefanini.imgur.domain.models.ImgurModel
 import br.com.stefanini.imgur.ui.theme.ImgurAppTheme
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
 fun CardImageItem(
-    imgur: ImgurModel,
+    imageUrl: String,
     modifier: Modifier = Modifier
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .fallback(R.drawable.image_default)
-            .data(imgur.imageUrl)
+            .data(imageUrl)
             .crossfade(true)
             .build(),
         placeholder = painterResource(R.drawable.image_default),
-        contentDescription = imgur.title,
+        contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier
     )
@@ -36,11 +35,7 @@ fun CardImageItem(
 fun CardImageItemPreview() {
     ImgurAppTheme {
         CardImageItem(
-            imgur = ImgurModel(
-                id = "cgAz4cB",
-                title = "Poor hungry cats!",
-                imageUrl = "https://img.freepik.com/premium-photo/colorful-abstract-background_80983-1544.jpg"
-            )
+            imageUrl = ""
         )
     }
 }

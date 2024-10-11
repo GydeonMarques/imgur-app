@@ -34,17 +34,12 @@ fun ViewState(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = DefaultPadding,
-                end = DefaultPadding,
-                start = DefaultPadding,
-                bottom = 105.dp
-            )
+            .padding(DefaultPadding)
     ) {
         LottieAnimation(
             composition,
-            iterations = 1,
             isPlaying = true,
+            iterations = Int.MAX_VALUE,
             modifier = Modifier.size(120.dp)
         )
         Text(
