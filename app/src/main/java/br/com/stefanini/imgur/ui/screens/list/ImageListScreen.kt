@@ -21,7 +21,7 @@ import br.com.stefanini.imgur.ui.components.ViewState
 import com.airbnb.lottie.compose.LottieCompositionSpec
 
 @Composable
-fun ImageListScreen(
+internal fun ImageListScreen(
     viewModel: ImageListViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -61,9 +61,9 @@ private fun RenderLayoutSuccess(viewState: ImageListViewState) {
     val galleries = (viewState as ImageListViewState.Success).galleries
 
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Adaptive(200.dp),
-        verticalItemSpacing = 4.dp,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 6.dp,
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier.fillMaxSize(),
     ) {
         items(galleries) { gallery ->

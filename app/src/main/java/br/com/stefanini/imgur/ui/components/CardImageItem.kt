@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.stefanini.imgur.R
 import br.com.stefanini.imgur.ui.theme.ImgurAppTheme
@@ -22,7 +21,6 @@ fun CardImageItem(
             .data(imageUrl)
             .crossfade(true)
             .build(),
-        placeholder = painterResource(R.drawable.image_default),
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = modifier

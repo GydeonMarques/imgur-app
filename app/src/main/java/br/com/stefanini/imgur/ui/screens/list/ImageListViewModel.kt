@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageListViewModel @Inject constructor(
+internal class ImageListViewModel @Inject constructor(
     private val getImageListUseCase: GetImageListUseCase,
 ) : ViewModel() {
 
